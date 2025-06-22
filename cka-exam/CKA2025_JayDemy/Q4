@@ -1,0 +1,10 @@
+CKA 2025 by JayDemy 
+
+
+Create a new Ingress resource echo in echo-sound namespace
+Exposing Service echoserver-service on http://example.org/Icho using Service port 8080
+The availability of Service echoserver-service can be checked
+using the following command, which should return
+200:
+[candidate@cka2025] $ curl -o /dev/null -s -w
+"%{http_code)\n" http://example.org/echo

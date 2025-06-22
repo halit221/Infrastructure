@@ -1,0 +1,17 @@
+A user accidentally deleted the MariaDB Deployment in the mariadb namespace,
+which was configured with persistent storage.
+Your responsibility is to re-establish the Deployment while ensuring data is preserved by reusing the 
+available PersistentVolume.
+
+Task:
+A PersistentVolume already exists and is retained for reuse. only one pv exist.
+Create a PersistentVolumeClaim (PVC) named mariadb in the mariadb NS
+
+with the spec:
+Access mode ReadWriteOnce and Storage 250Mi
+
+Edit the MariaDB Deploy file located at ~/mariadb-deploy.vaml to use PVC created in the previous step.
+
+Apply the updated Deployment file to the cluster.
+
+Ensure the MariaDB Deployment is running and Stable
