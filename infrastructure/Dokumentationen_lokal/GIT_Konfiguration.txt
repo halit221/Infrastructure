@@ -1,0 +1,12 @@
+GIT Allgemeine Infos
+
+
+
+Git Konfigurieren:
+
+git config --global user.name "Halit U"
+git config --global user.email "montanta_t4@hotmail.com"
+
+
+
+ssh keygen -b 4096

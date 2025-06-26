@@ -1,0 +1,6 @@
+VM Oracle VirtualBox
+
+central-host:
+
+user: halit
+pw: Start2024!?!

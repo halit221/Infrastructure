@@ -1,0 +1,9 @@
+UTM
+
+
+central-host:
+
+user:
+ansible-adm
+
+pw: Start2024!?!

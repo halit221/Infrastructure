@@ -1,0 +1,83 @@
+Festplatte am MacBook anschließen und mounten
+
+Schließe die Festplatte an dein MacBook an.
+macOS sollte die Festplatte automatisch erkennen und sie im Finder anzeigen. Falls nicht, öffne das Festplattendienstprogramm (Disk Utility), um sie zu formatieren oder zu mounten.
+Achte darauf, dass die Festplatte genügend Speicherplatz für dein Backup hat.
+
+SSH-Verbindung zum Hetzner Server herstellen
+Stelle sicher, dass du SSH-Zugang zu deinem Hetzner-Server hast.
+Öffne das Terminal auf deinem MacBook und stelle eine SSH-Verbindung zu deinem Hetzner-Server her:
+<code>ssh username@your-hetzner-server-ip<code>
+
+Festplatte auf deinem MacBook im Terminal einbinden
+Wenn du die externe Festplatte auf deinem MacBook im Finder siehst, sollte sie auch im Terminal unter /Volumes gemountet sein.
+Um den genauen Pfad herauszufinden, führe den folgenden Befehl aus:
+<code>ls /Volumes<code>
+Hier solltest du den Namen deiner externen Festplatte sehen, z. B. /Volumes/BackupHDD.
+
+Daten per rsync oder scp vom Hetzner-Server auf das MacBook übertragen
+Du kannst nun entweder rsync oder scp verwenden, um die Daten vom Hetzner-Server auf die externe Festplatte zu übertragen. 
+Die Übertragung erfolgt dabei über das Netzwerk.
+
+Option 1: Mit rsync
+rsync ist eine effiziente Methode, um Daten zu übertragen, da es nur geänderte Dateien kopiert und die Übertragung 
+fortsetzen kann, falls sie unterbrochen wird.
+
+Backup mit rsync erstellen:
+
+Führe folgenden Befehl aus, um das Backup zu starten. Ersetze username durch deinen Benutzernamen auf 
+dem Hetzner-Server und /path/to/backup/directory mit dem Zielpfad auf deiner Festplatte:
+
+<code>rsync -avz --exclude={"/mnt/backup","/proc","/sys","/dev","/tmp","/run"} username@your-hetzner-server-ip:/ /Volumes/BackupHDD/Backup/<code>
+Erklärungen:
+
+-a für den Archivmodus (behält Berechtigungen, Zeitstempel, etc.)
+-v für detaillierte Ausgabe
+-z für Kompression der Daten während der Übertragung
+--exclude schließt Systemverzeichnisse aus (z. B. /proc, /sys, etc.)
+username@your-hetzner-server-ip:/ ist der Pfad auf dem Hetzner-Server, den du sichern möchtest.
+/Volumes/BackupHDD/Backup/ ist der Zielordner auf der Festplatte deines MacBooks.
+Verlauf der Übertragung überwachen: Du wirst eine detaillierte Ausgabe im Terminal sehen, während rsync die Daten überträgt. Wenn du den Befehl über mehrere Sessions hinweg laufen lässt, sorgt rsync dafür, dass nur geänderte Dateien übertragen werden.
+
+###################################################################################################
+
+Option 2: Mit scp
+scp (secure copy) ist ein einfaches Werkzeug, das du verwenden kannst, um Daten über SSH zu übertragen. 
+Es ist aber weniger effizient als rsync, da es alle Dateien jedes Mal neu überträgt, auch wenn sich nichts geändert hat.
+
+Backup mit scp erstellen:
+
+Ein einfaches Beispiel für den Befehl lautet:
+
+<code>scp -r username@your-hetzner-server-ip:/ /Volumes/BackupHDD/Backup/<code>
+Dies überträgt alle Dateien vom Root-Verzeichnis des Hetzner-Servers auf deine externe Festplatte. 
+Die Option -r sorgt dafür, dass das Verzeichnis rekursiv kopiert wird.
+
+5. Backup überprüfen
+Sobald die Übertragung abgeschlossen ist, kannst du auf die externe Festplatte zugreifen, um zu überprüfen, 
+ob alle Dateien korrekt übertragen wurden. Öffne dazu das Verzeichnis Backup/ auf deiner Festplatte und stelle sicher, dass die wichtigsten Daten vorhanden sind.
+
+6. Regelmäßige Backups automatisieren (optional)
+Um regelmäßig Backups zu erstellen, kannst du einen Cron-Job auf deinem MacBook einrichten, der das Backup zu einem bestimmten Zeitpunkt durchführt. Zum Beispiel jeden Tag um 2:00 Uhr:
+
+Öffne das Terminal und bearbeite die Crontab-Datei:
+
+<code>crontab -e<code>
+Füge eine Zeile hinzu, um das Backup mit rsync automatisch durchzuführen 
+(stelle sicher, dass der Befehl korrekt ist und deine Verzeichnisse stimmen):
+
+<code>0 2 * * * rsync -avz --exclude={"/mnt/backup","/proc","/sys","/dev","/tmp","/run"} username@your-hetzner-server-ip:/ /Volumes/BackupHDD/Backup/<code>
+
+7. Backup sicher aufbewahren
+Da es sich um ein Backup handelt, solltest du sicherstellen, dass die Festplatte sicher aufbewahrt wird. 
+Falls möglich, speichere die Festplatte an einem sicheren Ort oder verwende eine Cloud-basierte Lösung für eine 
+zusätzliche Redundanz.
+
+
+
+Zusammenfassung der Schritte:
+
+Festplatte an MacBook anschließen und mounten.
+SSH-Verbindung zum Hetzner-Server herstellen.
+Mit rsync oder scp die Daten vom Hetzner-Server auf die Festplatte auf deinem MacBook übertragen.
+Backup überprüfen und ggf. regelmäßig automatisieren.

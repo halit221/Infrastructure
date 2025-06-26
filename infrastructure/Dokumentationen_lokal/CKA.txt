@@ -1,0 +1,203 @@
+CKA
+
+##########################################################################################
+
++----------------------------+
+|   Kubernetes Cluster       |
++----------------------------+
+             |
+             v
++----------------------------+    kubectl / Client
+|    API Server (k8s API)    | <------------------------+
+|     (Steuert das Cluster)  |                         |
++----------------------------+                         |
+             |                                         |
+             v                                         v
++----------------------------+              Kubernetes Controller Manager
+|        etcd (Key-Value DB) | <---------------------------------------------+
+|  (Speichert den Cluster-   |                                                 |
+|     Zustand, Ressourcen)   |                                                 |
++----------------------------+                                                 |
+             |                                                             |
+             v                                                             |
++----------------------------+            Kubernetes Scheduler            |
+|  Controller Manager         | <------------------------------------------+
+|  (Verwaltet Pods, Replica- |                         |
+|     Sets, Deployments)     |                         |
++----------------------------+                         |
+             |                                           |
+             v                                           |
++----------------------------+           +----------------------------+
+|        Scheduler            |          |    Nodes (Worker Nodes)    |
+|    (Plant Pods auf Nodes)   |          |   (Physische/Virtuelle     |
++----------------------------+           |    Maschinen)              |
+             |                           +----------------------------+
+             |                               /              |              \
+             v                            +----+        +----+----+       +----+
+  +------------------------+            | Pod|        | Pod      |      | Pod|
+  |    Kubelet (Node)      |            +----+        +----+----+       +----+
+  | (Verwaltet Container   |            |Container|   |Container|      |Container|
+  | auf Nodes)             |            +---------+   +---------+      +---------+
+  +------------------------+                 |
+             |                               |
+             v                               v
+  +----------------------------+     +----------------------------+
+  |  Proxy (kube-proxy)        |     |    Services (LoadBalancer/  |
+  |  (Netzwerk-Kommunikation,  |     |    ClusterIP/NodePort)      |
+  |   Weiterleitung von Traffic|     +----------------------------+
+  |  zu Pods und Services)     |               |
+  +----------------------------+               v
+             |
+             v
+     (Kommunikation zu anderen Services oder externen Systemen)
+     
+##########################################################################################
+
+CKA-AUFGABEN:
+
+Aufgabenstellung:
+
+hilf mir meine eigenen aufgaben für den cka zu erstellen. 
+Folgende themen sollen von dir an mich gefragt werden, 
+quasi wie eine aufgabenstellung. stelle mir für die folgenden themen jeweils 3 aufgaben/fragen.
+
+Frage an ChatGPT
+
+- nodes
+- roles
+- pods
+- namespaces
+- deployments
+- services
+- daemonSets
+- events
+- logs
+- service Accounts
+- replicaSets
+- multiple Ressources
+- secrets
+- konfigMaps
+- ingress
+- persistent Volume
+- storageClass
+- API Call
+- Cluster Info
+- taint
+- labels
+
+
+>>>>>>>>>>>>>----<<<<<<<<<<<<<<<<<<<
+
+Aufgaben:
+
+
+Hier sind je drei Aufgaben/Fragen zu jedem der Themen, die du genannt hast. 
+Sie sind so formuliert, dass sie dir helfen, dich gezielt auf den CKA vorzubereiten.
+
+
+1. Nodes
+- Zeige die Liste aller Nodes im Cluster an und nenne deren Status.
+- Wie würdest du sicherstellen, dass ein Node im Cluster keine neuen Pods mehr akzeptiert, ohne ihn zu löschen?
+- Wie überprüfst du, ob ein Node im Cluster bereit ist, neue Pods zu starten? Welche Informationen würdest du dafür benötigen?
+
+2. Roles
+- Erstelle eine ClusterRole, die einem Benutzer nur Leserechte auf Pods in einem bestimmten Namespace gewährt.
+- Zeige alle Rollen (Roles) an, die in einem Namespace existieren.
+- Wie erstellst du eine RoleBinding, die eine Rolle zu einem bestimmten Benutzer in einem Namespace zuweist?
+
+3. Pods
+- Wie startest du einen Pod manuell mit einem bestimmten Container-Image in einem Namespace "test"?
+- Zeige alle Pods im Cluster an, die momentan nicht laufen (Status "CrashLoopBackOff", "Error" etc.).
+- Wie überprüfst du, ob ein Pod in einem bestimmten Namespace über ausreichend Ressourcen (CPU, RAM) verfügt?
+
+4. Namespaces
+- Erstelle einen neuen Namespace namens "production".
+- Zeige alle Namespaces im Cluster an und filtere nur die aktiven (nicht gelöschten) heraus.
+- Wie würdest du einem Namespace eine Ressourcen-Limitierung zuweisen?
+
+5. Deployments
+- Erstelle ein Deployment mit einem Container, der ein bestimmtes Docker-Image verwendet.
+- Wie überprüfst du die aktuelle Version eines Deployments und wie änderst du sie?
+- Skaliere ein bestehendes Deployment auf 5 Replicas und überprüfe den Status.
+
+6. Services
+- Erstelle einen ClusterIP-Service, der Traffic an Pods im Namespace "test" weiterleitet.
+- Wie würdest du einen LoadBalancer-Service konfigurieren und welche Voraussetzungen müssen erfüllt sein?
+- Zeige alle Services im Cluster an und filtere nach den Services vom Typ "NodePort".
+
+7. DaemonSets
+- Erstelle ein DaemonSet, das einen bestimmten Container auf allen Nodes im Cluster ausführt.
+- Wie überprüfst du, auf welchen Nodes ein DaemonSet läuft?
+- Was passiert, wenn ein neuer Node zum Cluster hinzugefügt wird, in Bezug auf DaemonSets?
+
+8. Events
+- Zeige alle Events im Namespace "production" der letzten 24 Stunden an.
+- Wie suchst du nach einem spezifischen Event, das mit einem bestimmten Pod zusammenhängt?
+- Wie kannst du Events filtern, die von einem bestimmten Deployment erzeugt wurden?
+
+9. Logs
+- Zeige die Logs eines bestimmten Pods in Echtzeit an.
+- Wie extrahierst du nur die letzten 100 Zeilen der Logs eines Containers?
+- Wie würdest du die Logs eines Pods mit einem bestimmten Label filtern?
+
+10. Service Accounts
+- Erstelle ein ServiceAccount im Namespace "test".
+- Wie weisst du einem Pod ein bestimmtes ServiceAccount zu?
+- Welche Rolle wird einem ServiceAccount standardmäßig zugewiesen?
+
+11. ReplicaSets
+- Erstelle ein ReplicaSet, das 3 Instanzen eines Pods im Namespace "dev" startet.
+- Wie überprüfst du, ob ein ReplicaSet die gewünschte Anzahl von Pods erreicht hat?
+- Was passiert, wenn du ein ReplicaSet löschst, aber das zugrunde liegende Deployment noch existiert?
+
+12. Multiple Resources
+- Erstelle mehrere Ressourcen (Pod, Service, Deployment) mit einem einzigen Befehl aus einer YAML-Datei.
+- Wie verwendest du kubectl, um mehrere Ressourcen gleichzeitig zu löschen?
+- Wie führst du eine Bulk-Aktion aus, um mehrere Pods in einem bestimmten Namespace zu skalieren?
+
+13. Secrets
+- Erstelle ein Secret, das ein Datenbankpasswort enthält.
+- Wie würdest du ein Secret in einem Pod verwenden, um Umgebungsvariablen zu setzen?
+- Wie prüfst du, ob ein Secret korrekt erstellt wurde und wie kannst du den Inhalt verschlüsselt anzeigen?
+
+14. ConfigMaps
+- Erstelle eine ConfigMap aus einer Datei und verwende sie in einem Pod.
+- Wie änderst du eine ConfigMap und lässt diese Änderungen automatisch in einem laufenden Pod anwenden?
+- Zeige alle ConfigMaps im Namespace "dev" an.
+
+15. Ingress
+- Erstelle ein einfaches Ingress-Resource, das HTTP-Traffic zu einem Service im Namespace "web" weiterleitet.
+- Wie würdest du ein Ingress so konfigurieren, dass es SSL (TLS) für eine bestimmte Domain verwendet?
+- Zeige alle Ingress-Resources im Cluster an und filtere nach denen im Namespace "default".
+
+16. Persistent Volumes (PV)
+- Erstelle ein PersistentVolume (PV) von Typ "hostPath" und weise es einem Pod zu.
+- Wie prüfst du, ob ein PersistentVolume korrekt in ein Pod gemountet wurde?
+- Zeige alle verfügbaren PersistentVolumes im Cluster an.
+
+17. StorageClass
+- Erstelle eine StorageClass mit dem Provisioner "kubernetes.io/aws-ebs".
+- Wie prüfst du, welche StorageClass für ein PVC verwendet wird?
+- Wie erstellst du ein PersistentVolumeClaim (PVC), das automatisch eine StorageClass verwendet?
+
+18. API Call
+- Verwende kubectl um eine API-Resourcenbeschreibung von einem Pod als JSON zu erhalten.
+- Wie kannst du einen API-Call an den Kubernetes-API-Server durchführen, um die aktuelle Cluster-Statusinformation abzurufen?
+- Erstelle eine benutzerdefinierte API-Ressource für dein Cluster.
+
+19. Cluster Info
+- Zeige die Informationen zum aktuellen Cluster an (API-Server, Kubelet-Version, etc.).
+- Wie prüfst du die Verfügbarkeit des API-Servers und der kubelet-Komponenten im Cluster?
+- Wie zeigst du die Liste der Nodes und deren Rollen im Cluster an?
+
+20. Taints
+- Füge einen Taint zu einem Node hinzu, der verhindert, dass Pods ohne toleration auf diesem Node laufen.
+- Wie überprüfst du, ob ein Node einen bestimmten Taint besitzt?
+- Wie entfernst du einen Taint von einem Node?
+
+21. Labels
+- Füge einem Pod im Namespace "dev" das Label "environment=production" hinzu.
+- Wie filterst du Pods nach bestimmten Labels in einem bestimmten Namespace?
+- Wie kannst du Labels auf einem Pod dynamisch ändern, ohne den Pod zu löschen?
+
+

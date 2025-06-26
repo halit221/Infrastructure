@@ -1,0 +1,113 @@
+INFRASTUCTURE AS CODE
+
+############################################################################
+
+20.11.24:
+
+Änderungen von develop auf main muss noch gemergt werden!
+
+
+
+############################################################################
+
+
+
+
++----------------------------+
+|   Kubernetes Cluster       |
++----------------------------+
+             |
+             v
++----------------------------+    kubectl / Client
+|    API Server (k8s API)    | <------------------------+
+|     (Steuert das Cluster)  |                         |
++----------------------------+                         |
+             |                                         |
+             v                                         v
++----------------------------+              Kubernetes Controller Manager
+|        etcd (Key-Value DB) | <---------------------------------------------+
+|  (Speichert den Cluster-   |                                                 |
+|     Zustand, Ressourcen)   |                                                 |
++----------------------------+                                                 |
+             |                                                             |
+             v                                                             |
++----------------------------+            Kubernetes Scheduler            |
+|  Controller Manager         | <------------------------------------------+
+|  (Verwaltet Pods, Replica- |                         |
+|     Sets, Deployments)     |                         |
++----------------------------+                         |
+             |                                           |
+             v                                           |
++----------------------------+           +----------------------------+
+|        Scheduler            |          |    Nodes (Worker Nodes)    |
+|    (Plant Pods auf Nodes)   |          |   (Physische/Virtuelle     |
++----------------------------+          |    Maschinen)              |
+             |                           +----------------------------+
+             |                               /              |              \
+             v                            +----+        +----+----+       +----+
+  +------------------------+            | Pod|        | Pod      |      | Pod|
+  |    Kubelet (Node)      |            +----+        +----+----+       +----+
+  | (Verwaltet Container   |            |Container|   |Container|      |Container|
+  | auf Nodes)             |            +---------+   +---------+      +---------+
+  +------------------------+                |
+             |                               |
+             v                               v
+  +----------------------------+     +----------------------------+
+  |  Proxy (kube-proxy)        |     |    Services (LoadBalancer/  |
+  |  (Netzwerk-Kommunikation,  |     |    ClusterIP/NodePort)      |
+  |   Weiterleitung von Traffic|     +----------------------------+
+  |  zu Pods und Services)     |               |
+  +----------------------------+               v
+             |
+             v
+     (Kommunikation zu anderen Services oder externen Systemen)
+     
+     
+     
+     
+############################################################################     
+     
+     
+  +------------+         +------------------+       +-------------------+       +------------------+
+  |  Dev-Host  |  <--->  |  Git Repository  |  <---> |  Jenkins (CI/CD)  |  <---> |   Ansible        |
+  | (Developer)|         | (GitHub/GitLab)  |       | (Job Trigger)     |       | (Automating Infra)|
+  +------------+         +------------------+       +-------------------+       +------------------+
+                                                        |                         |
+                                                        v                         v
+                                               +--------------------+    +---------------------+
+                                               |       AWS Cloud    |    |  Kubernetes /       |
+                                               | (EC2, EKS, VPC)    |    | OpenShift           |
+                                               +--------------------+    +---------------------+
+
+     
+Dev-Host (Entwicklungsumgebung):
+
+Was passiert hier?: Die Änderungen werden vom Entwickler auf dem lokalen Dev-Host gemacht. 
+Dieser Host ist die Umgebung, in der der Code geschrieben wird, und der erste Schritt, bevor er in das Git-Repository gepusht wird.
+
+Git Repository (GitHub / GitLab):
+Was passiert hier?: Nach der Entwicklung auf dem Dev-Host wird der Code in ein Git-Repository (z.B. GitHub oder GitLab) gepusht. 
+Das Repository fungiert als zentrale Quelle für die Versionskontrolle und den Code-Austausch.
+
+Ansible (Automatisierung):
+Was passiert hier?: Ansible wird genutzt, um die Änderungen in die Infrastruktur zu integrieren und zu deployen. 
+Es sorgt dafür, dass die nötigen Änderungen (z.B. Konfigurationen, Software-Pakete) auf den 
+Zielmaschinen, wie z.B. den Kubernetes- oder OpenShift-Clustern (auf AWS oder lokal), korrekt ausgerollt werden.
+
+Jenkins (CI/CD Pipeline):
+Was passiert hier?: Jenkins übernimmt die Rolle der CI/CD-Pipeline. 
+Sobald Änderungen ins Git-Repository gepusht werden, wird der Jenkins-Job getriggert. 
+Jenkins führt dann den Build-, Test- und Deployment-Prozess aus und stellt sicher, dass die Änderungen 
+ordnungsgemäß auf der Infrastruktur laufen.
+
+AWS (Cloud-Infrastruktur):
+Was passiert hier?: In deiner Architektur stellt AWS die Compute- und Netzwerkressourcen bereit (z.B. EC2, EKS), 
+auf denen die Kubernetes/OpenShift-Cluster laufen. Ansible und Jenkins verwenden diese Infrastruktur als 
+Grundlage für das Deployment der Anwendungen.
+
+Kubernetes/OpenShift (Container-Orchestrierung):
+Was passiert hier?: Kubernetes oder OpenShift orchestrieren und verwalten die containerisierten Anwendungen. 
+Sie sorgen dafür, dass die Anwendungen auf den bereitgestellten AWS-Resourcen skaliert, ausgerollt und überwacht werden.     
+
+
+############################################################################     

@@ -1,0 +1,3 @@
+INFRASTUCTURE AS CODE
+
+group_vars => ist noch offen, muss recheriechrt und angeappst (im script)werden
