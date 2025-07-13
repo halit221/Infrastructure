@@ -116,3 +116,6 @@ Hier sind alle **Lösungen zu den 16 CKAD-Aufgaben** im Überblick (kompakt & pr
 3. **Dokumentation**: `kubectl explain pod.spec.containers` während der Prüfung nutzen.
 
 **Weiterführend**: Übe besonders **Rolling Updates**, **Multi-Container Pods** und **Debugging** – diese sind Prüfungsschwerpunkte! 🚀
+
+
+Weiteres folgt.
